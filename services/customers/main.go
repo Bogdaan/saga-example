@@ -76,8 +76,6 @@ func main() {
 			customer.Version = customer.Version + 1
 			customer.Balance -= withdrawRequest.Amount
 
-			log.Printf("change %v", customer)
-
 			// save
 			res := tx.Model(&Customer{}).
 				Where("id = ? AND version = ?", customer.ID, customer.Version-1).
@@ -89,8 +87,6 @@ func main() {
 
 			return nil
 		})
-
-		log.Println("change result", err)
 
 		return err
 	}))
