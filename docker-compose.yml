@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  customers:
+    build:
+      context: services/customers
+      dockerfile: Dockerfile
+    environment:
+      - DTM_COORDINATOR=http://dtm:36789/api/dtmsvr
+      - ORDERS_SERVICE_URL=http://orders:8080
+      - CUSTOMERS_SERVICE_URL=http://customers:8080
+      - MYSQL_DSN=saga:saga@tcp(mysql:3306)/saga?charset=utf8mb4&parseTime=True&loc=Local
+    ports:
+      - "8090:8080"
+    networks:
+      - backend
+  orders:
+    build:
+      context: services/orders
+      dockerfile: Dockerfile
+    environment:
+      - DTM_COORDINATOR=http://dtm:36789/api/dtmsvr
+      - ORDERS_SERVICE_URL=http://orders:8080
+      - CUSTOMERS_SERVICE_URL=http://customers:8080
+      - MYSQL_DSN=saga:saga@tcp(mysql:3306)/saga?charset=utf8mb4&parseTime=True&loc=Local
+    ports:
+      - "8091:8080"
+    networks:
+      - backend
+  dtm:
+    image: yedf/dtm
+    restart: always
+    ports:
+      - "36790:36790" # grpc
+      - "36789:36789" # ui
+    networks:
+      - backend
+  mysql:
+    image: mysql:8
+    restart: always
+    ports:
+      - "8092:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=saga
+      - MYSQL_USER=saga
+      - MYSQL_PASSWORD=saga
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge

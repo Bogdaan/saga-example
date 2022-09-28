@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  title: customers
+  version: 0.0.1
+servers:
+  - url: http://127.0.0.1:8080
+paths:
+  /create:
+    post:
+      summary: create customer
+      operationId: create
+      requestBody:
+        $ref: '#/components/requestBodies/CreateCustomerRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateCustomerResponse'
+  /withdraw-money:
+    post:
+      summary: withdraw money
+      operationId: withdraw
+      requestBody:
+        $ref: '#/components/requestBodies/WithdrawRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/WithdrawResponse'
+  /withdraw-money-compensate:
+    post:
+      summary: withdraw money compensation
+      operationId: withdrawCompensate
+      requestBody:
+        $ref: '#/components/requestBodies/WithdrawCompensateRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/WithdrawCompensateResponse'
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        universalBalance:
+          type: number
+  requestBodies:
+    CreateCustomerRequest:
+      description: _
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Customer'
+    WithdrawRequest:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idCustomer:
+                type: number
+              amount:
+                type: number
+    WithdrawCompensateRequest:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idCustomer:
+                type: number
+              amount:
+                type: number
+  responses:
+    CreateCustomerResponse:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object
+    WithdrawResponse:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object
+    WithdrawCompensateResponse:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object

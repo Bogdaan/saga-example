@@ -1,0 +1,86 @@
+openapi: 3.0.0
+info:
+  title: orders
+  version: 0.0.1
+servers:
+  - url: http://127.0.0.1:8091
+paths:
+  /create:
+    post:
+      summary: create order
+      operationId: create
+      requestBody:
+        $ref: '#/components/requestBodies/CreateOrderRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateOrderResponse'
+  /register-order:
+    post:
+      summary: register order
+      operationId: register
+      requestBody:
+        $ref: '#/components/requestBodies/RegisterOrderRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/RegisterOderResponse'
+  /register-order-compensate:
+    post:
+      summary: register order compensation
+      operationId: registerCompensate
+      requestBody:
+        $ref: '#/components/requestBodies/RegisterOrderCompensateRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/RegisterOrderCompensateResponse'
+components:
+  requestBodies:
+    CreateOrderRequest:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              gid:
+                type: string
+    RegisterOrderRequest:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idCustomer:
+                type: number
+              amount:
+                type: number
+    RegisterOrderCompensateRequest:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idCustomer:
+                type: number
+              amount:
+                type: number
+  responses:
+    CreateOrderResponse:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object
+    RegisterOderResponse:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object
+    RegisterOrderCompensateResponse:
+      description: _
+      content:
+        application/json:
+          schema:
+            type: object
